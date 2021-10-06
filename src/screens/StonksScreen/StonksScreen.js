@@ -91,36 +91,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'red',
   },
-  tableDescriptionContainer: {
-    height: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 5,
-  },
-  tableDescriptionCell: {
-    fontSize: 14,
-    textAlign: 'center',
-    width: 82,
-    marginRight: 5,
-  },
-  itemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 5,
-  },
-  itemCell: {
-    backgroundColor: '#D4F5DB',
-    fontSize: 14,
-    color: '#000',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    marginRight: 5,
-    borderWidth: 1,
-    width: 82,
-    height: 35,
-  },
 });
 
 export default StonksScreen;
