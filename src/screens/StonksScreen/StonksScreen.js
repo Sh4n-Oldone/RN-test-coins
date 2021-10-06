@@ -1,12 +1,7 @@
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
+import {StonksTable} from '../../components/StonksTable';
 import {getContent} from '../../servises/content';
 import {mainColor} from '../../settings/constants';
 import {stockStore} from '../../store/store';
@@ -57,42 +52,6 @@ const StonksScreen = observer(() => {
     }
   }, [needToLoad]);
 
-  const getColor = (goingUp, goingDown) => {
-    if (goingUp) {
-      return 'green';
-    }
-    if (goingDown) {
-      return 'red';
-    }
-    return 'grey';
-  };
-
-  const ListItem = ({item}) => {
-    const {
-      id,
-      last,
-      highestBid,
-      percentChange,
-      stockName,
-      isGoingUp,
-      isGoingDown,
-    } = item;
-    return (
-      <View style={styles.itemContainer}>
-        <Text
-          style={[
-            styles.itemCell,
-            {backgroundColor: getColor(isGoingUp, isGoingDown), width: 78},
-          ]}>
-          {stockName.replace('_', ' ')}
-        </Text>
-        <Text style={styles.itemCell}>{last}</Text>
-        <Text style={styles.itemCell}>{highestBid}</Text>
-        <Text style={[styles.itemCell, {marginRight: 0}]}>{percentChange}</Text>
-      </View>
-    );
-  };
-
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
@@ -109,21 +68,7 @@ const StonksScreen = observer(() => {
             {isError ? 'Возникла ошибка при загрузке' : ''}
           </Text>
         </View>
-        <View style={styles.tableDescriptionContainer}>
-          <Text style={[styles.tableDescriptionCell, {width: 78}]}>Валюта</Text>
-          <Text style={styles.tableDescriptionCell}>Last</Text>
-          <Text style={styles.tableDescriptionCell}>Highest Bid</Text>
-          <Text style={[styles.tableDescriptionCell, {marginRight: 0}]}>
-            % change
-          </Text>
-        </View>
-        {!isError && store.stock && (
-          <FlatList
-            data={store.stock}
-            renderItem={ListItem}
-            keyExtractor={item => item.id}
-          />
-        )}
+        {!isError && store.stock && <StonksTable data={store.stock} />}
       </View>
     );
   }
