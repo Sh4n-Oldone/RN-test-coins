@@ -1,15 +1,23 @@
-// import { observable, observer } from 'mobx-react';
+import { action, makeObservable, observable } from 'mobx';
 
-// class StockData {
-//   stock = [];
+class StockData {
+  stock = [];
 
-//   loadStock(stockData) {
-//     this.stock = stockData;
-//   }
+  constructor() {
+    makeObservable(this, {
+      stock: observable,
+      loadStock: action,
+      clearStock: action,
+    });
+  }
 
-//   clearStock() {
-//     this.stock = [];
-//   }
-// }
+  loadStock(stockData) {
+    this.stock = stockData;
+  }
 
-// export const stockStore = new StockData();
+  clearStock() {
+    this.stock = [];
+  }
+}
+
+export const stockStore = new StockData();

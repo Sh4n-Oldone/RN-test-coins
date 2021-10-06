@@ -1,3 +1,4 @@
+import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
@@ -8,26 +9,28 @@ import {
 } from 'react-native';
 import {getContent} from '../../servises/content';
 import {mainColor} from '../../settings/constants';
+import {stockStore} from '../../store/store';
 
-const StonksScreen = () => {
+const StonksScreen = observer(() => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [data, setData] = useState([]);
   const [needToLoad, setNeedToLoad] = useState(false);
 
+  const store = stockStore;
+
   useEffect(() => {
-    if (!needToLoad && data) {
+    if (!needToLoad && store.stock) {
       setTimeout(() => {
         setNeedToLoad(true);
       }, 5000);
     }
-    if (needToLoad || !data) {
+    if (needToLoad || !store.stock) {
       getContent().then(resData => {
         if (!resData) {
           return setIsError(true);
         }
 
-        const mappedDataArray = [...data];
+        const mappedDataArray = [...store.stock];
 
         for (const key in resData) {
           const wasLoaded = mappedDataArray.find(
@@ -46,7 +49,7 @@ const StonksScreen = () => {
             ? (mappedDataArray[indexOfLastValue] = mappedData)
             : mappedDataArray.push(mappedData);
         }
-        setData(mappedDataArray);
+        store.loadStock(mappedDataArray.slice(0, 30)); // срезал для удобства
         setIsLoading(false);
         setNeedToLoad(false);
         console.log('Fresh Stock loaded');
@@ -114,9 +117,9 @@ const StonksScreen = () => {
             % change
           </Text>
         </View>
-        {!isError && (
+        {!isError && store.stock && (
           <FlatList
-            data={data.slice(0, 30)}
+            data={store.stock}
             renderItem={ListItem}
             keyExtractor={item => item.id}
           />
@@ -124,7 +127,7 @@ const StonksScreen = () => {
       </View>
     );
   }
-};
+});
 
 const styles = StyleSheet.create({
   loadingContainer: {

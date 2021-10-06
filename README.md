@@ -36,5 +36,9 @@
 > Публичное API Poloniex https://poloniex.com/support/api/, запрос, который нам нужен https://poloniex.com/public?command=returnTicker
 > react-navigation http://reactnavigation.org/
 
+**Команды для запуска**
+> npm i
+> npm run android
+
 **Ссылка на собранный apk**
 > 
