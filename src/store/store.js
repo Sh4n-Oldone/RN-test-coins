@@ -10,6 +10,8 @@ class StockData {
       needToLoad: observable,
       loadStock: action,
       clearStock: action,
+      stopLoadingData: action,
+      startLoadingData: action,
     });
   }
 
