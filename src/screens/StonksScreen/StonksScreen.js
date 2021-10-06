@@ -19,7 +19,7 @@ const StonksScreen = observer(() => {
         setNeedToLoad(true);
       }, 5000);
     }
-    if (needToLoad || !store.stock) {
+    if (store.needToLoad || !store.stock) {
       getContent().then(resData => {
         if (!resData) {
           return setIsError(true);
@@ -50,7 +50,7 @@ const StonksScreen = observer(() => {
         console.log('Fresh Stock loaded');
       });
     }
-  }, [needToLoad]);
+  }, [needToLoad, store.needToLoad]);
 
   if (isLoading) {
     return (

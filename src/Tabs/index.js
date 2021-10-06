@@ -5,9 +5,12 @@ import MainScreen from '../screens/MainScreen/MainScreen';
 import StonksScreen from '../screens/StonksScreen/StonksScreen';
 import {IconComponent} from '../components/IconComponent';
 import {disabledColor, mainColor} from '../settings/constants';
+import {observer} from 'mobx-react';
+import { stockStore } from '../store/store';
 
-const Tabs = () => {
+const Tabs = observer(() => {
   const TabMenu = createBottomTabNavigator();
+  const store = stockStore;
 
   return (
     <TabMenu.Navigator
@@ -41,6 +44,11 @@ const Tabs = () => {
       <TabMenu.Screen
         name="О приложении"
         component={MainScreen}
+        listeners={() => ({
+          tabPress: () => {
+            store.stopLoadingData();
+          },
+        })}
         options={{
           tabBarIcon: ({focused}) => (
             <IconComponent
@@ -53,6 +61,11 @@ const Tabs = () => {
       <TabMenu.Screen
         name="Котировки"
         component={StonksScreen}
+        listeners={() => ({
+          tabPress: () => {
+            store.startLoadingData();
+          },
+        })}
         options={{
           tabBarIcon: ({focused}) => (
             <IconComponent
@@ -64,6 +77,6 @@ const Tabs = () => {
       />
     </TabMenu.Navigator>
   );
-};
+});
 
 export default Tabs;

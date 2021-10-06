@@ -1,11 +1,13 @@
-import { action, makeObservable, observable } from 'mobx';
+import {action, makeObservable, observable} from 'mobx';
 
 class StockData {
   stock = [];
+  needToLoad = false;
 
   constructor() {
     makeObservable(this, {
       stock: observable,
+      needToLoad: observable,
       loadStock: action,
       clearStock: action,
     });
@@ -17,6 +19,14 @@ class StockData {
 
   clearStock() {
     this.stock = [];
+  }
+
+  stopLoadingData() {
+    this.needToLoad = false;
+  }
+
+  startLoadingData() {
+    this.needToLoad = true;
   }
 }
 
