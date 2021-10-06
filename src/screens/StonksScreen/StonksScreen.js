@@ -16,12 +16,12 @@ const StonksScreen = () => {
   const [needToLoad, setNeedToLoad] = useState(false);
 
   useEffect(() => {
-    if (!needToLoad) {
+    if (!needToLoad && data) {
       setTimeout(() => {
         setNeedToLoad(true);
       }, 5000);
     }
-    if (needToLoad) {
+    if (needToLoad || !data) {
       getContent().then(resData => {
         if (!resData) {
           return setIsError(true);
@@ -39,8 +39,8 @@ const StonksScreen = () => {
           const mappedData = {
             stockName: key,
             ...resData[key],
-            isGoingUp: wasLoaded ? wasLoaded.last > resData[key].last : null,
-            isGoingDown: wasLoaded ? wasLoaded.last < resData[key].last : null,
+            isGoingUp: wasLoaded ? wasLoaded.last < resData[key].last : null,
+            isGoingDown: wasLoaded ? wasLoaded.last > resData[key].last : null,
           };
           wasLoaded
             ? (mappedDataArray[indexOfLastValue] = mappedData)
@@ -79,7 +79,7 @@ const StonksScreen = () => {
         <Text
           style={[
             styles.itemCell,
-            {backgroundColor: getColor(isGoingUp, isGoingDown)},
+            {backgroundColor: getColor(isGoingUp, isGoingDown), width: 78},
           ]}>
           {stockName.replace('_', ' ')}
         </Text>
@@ -107,7 +107,7 @@ const StonksScreen = () => {
           </Text>
         </View>
         <View style={styles.tableDescriptionContainer}>
-          <Text style={styles.tableDescriptionCell}>Валюта</Text>
+          <Text style={[styles.tableDescriptionCell, {width: 78}]}>Валюта</Text>
           <Text style={styles.tableDescriptionCell}>Last</Text>
           <Text style={styles.tableDescriptionCell}>Highest Bid</Text>
           <Text style={[styles.tableDescriptionCell, {marginRight: 0}]}>
@@ -167,11 +167,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#000',
     textAlign: 'center',
+    textAlignVertical: 'center',
     marginRight: 5,
     borderWidth: 1,
     width: 82,
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: 35,
   },
 });
 
