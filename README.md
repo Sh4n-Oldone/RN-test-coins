@@ -40,5 +40,7 @@
 > npm i
 > npm run android
 
-**Ссылка на собранный apk**
-> 
+**Использовалось в работе**
+> React Native CLI
+> MobX
+> /bottom-tabs
