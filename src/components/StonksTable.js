@@ -52,6 +52,7 @@ export const StonksTable = ({data}) => {
         data={data}
         renderItem={ListItem}
         keyExtractor={item => item.id}
+        contentContainerStyle={{paddingBottom: 85}}
       />
     </>
   );
